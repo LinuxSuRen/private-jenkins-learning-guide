@@ -198,6 +198,25 @@ EOF
 ## 自由风格
 自由风格（free-style）是 Jenkins 非常早期的功能，基本是借助 UI 上插件的配置、shell 脚本来完成所需功能。
 
+```
+#title: Start Go Agent
+secret=ad867439090256757c5e51e6ea20753fa15925864892c58a3bd1a1e005b41744
+ip=172.28.66.81
+docker run jenkins/jnlp-agent-golang -url http://${ip}:8080 ${secret} test
+```
+
+```
+#title: Start Maven Agent
+secret=ad867439090256757c5e51e6ea20753fa15925864892c58a3bd1a1e005b41744
+ip=172.28.66.81
+docker run jenkins/jnlp-agent-maven -url http://${ip}:8080 ${secret} test
+```
+
+```shell
+#!title: Start Agent Locally
+curl -sO http://localhost:8080/jnlpJars/agent.jar
+java -jar agent.jar -jnlpUrl http://localhost:8080/manage/computer/test/jenkins-agent.jnlp -secret ad867439090256757c5e51e6ea20753fa15925864892c58a3bd1a1e005b41744 -workDir "/tmp/.jenkins/tmp"
+```
 
 ## 流水线
 
