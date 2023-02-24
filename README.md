@@ -219,6 +219,24 @@ java -jar agent.jar -jnlpUrl http://localhost:8080/manage/computer/test/jenkins-
 ```
 
 ## 流水线
+[Groovy](https://www.groovy-lang.org/)
+
+
+```groovy
+retry(3) {
+  for (int i = 0; i < 10; i++) {
+    branches["branch${i}"] = {
+      node {
+        retry(3) {
+          checkout scm
+        }
+        sh 'make world'
+      }
+    }
+  }
+}
+parallel branches
+```
 
 ## 多分支流水线
 
