@@ -221,23 +221,62 @@ java -jar agent.jar -jnlpUrl http://localhost:8080/manage/computer/test/jenkins-
 ## 流水线
 [Groovy](https://www.groovy-lang.org/)
 
-
 ```groovy
-#!title: Groovy
-retry(3) {
-  for (int i = 0; i < 10; i++) {
-    branches["branch${i}"] = {
-      node {
-        sh 'make world'
+pipeline {
+  agent {
+    label 'go'
+  }
+
+  environment {
+    BRANCH = "master"
+  }
+
+  stages {
+    stage('clone') {
+      steps {
+        sh 'git clone https://gitee.com/linuxsuren/md-exec . --branch ${BRANCH}'
       }
+    }
+
+    stage('build') {
+      when {
+        environment name: 'BRANCH', value: 'master'
+      }
+      steps {
+        sh 'go build .'
+      }
+    }
+  }
+
+  post {
+    always {
+      echo 'always'
     }
   }
 }
 ```
 
+* 代码生成器
+
 ## 多分支流水线
 
+通过定时（或 webhook）扫描代码仓库，如果相应分支（或 tag）上有 Jenkinsfile 的话，按照规则来动态管理流水线。
+发现新分支会创建流水线，分支被删除后会删除对应的流水线。
+
+支持扫描：
+
+* 分支
+* tag
+* PR
+
+```shell
+#!title: Run Jenkins multi-branch Pipeline
+docker run -p 8080:8080 jenkinszh/jenkins-multi-pipeline-zh:2.204.5
+```
+
 ## 共享库
+
+* https://github.com/devops-ws/jenkins-shared-library
 
 ## 系统配置
 
