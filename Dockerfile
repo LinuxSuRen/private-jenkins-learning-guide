@@ -9,6 +9,6 @@ ARG TOOL
 COPY --from=hd /usr/local/bin/hd /usr/local/bin/hd
 
 USER root
-RUN hd fetch --provider gitee
+RUN hd fetch
 RUN hd i ubuntu-source-aliyun
 RUN hd i ${TOOL}
