@@ -198,24 +198,24 @@ EOF
 ## 自由风格
 自由风格（free-style）是 Jenkins 非常早期的功能，基本是借助 UI 上插件的配置、shell 脚本来完成所需功能。
 
-```
-#title: Start Go Agent
-secret=ad867439090256757c5e51e6ea20753fa15925864892c58a3bd1a1e005b41744
-ip=172.28.66.81
-docker run jenkins/jnlp-agent-golang -url http://${ip}:8080 ${secret} test
+```shell
+#!title: Start Go Agent
+secret=17565475119966173f9e077545eb0c72030b7d441d0035b21eb7672c799ed816
+ip=192.168.6.160
+docker run surenpi/jenkins-agent-go -url http://${ip}:8080 ${secret} test
 ```
 
-```
-#title: Start Maven Agent
+```shell
+#!title: Start Maven Agent
 secret=ad867439090256757c5e51e6ea20753fa15925864892c58a3bd1a1e005b41744
-ip=172.28.66.81
-docker run jenkins/jnlp-agent-maven -url http://${ip}:8080 ${secret} test
+ip=192.168.6.160
+docker run surenpi/jenkins-agent-maven -url http://${ip}:8080 ${secret} maven
 ```
 
 ```shell
 #!title: Start Agent Locally
 curl -sO http://localhost:8080/jnlpJars/agent.jar
-java -jar agent.jar -jnlpUrl http://localhost:8080/manage/computer/test/jenkins-agent.jnlp -secret ad867439090256757c5e51e6ea20753fa15925864892c58a3bd1a1e005b41744 -workDir "/tmp/.jenkins/tmp"
+java -jar agent.jar -jnlpUrl http://localhost:8080/manage/computer/test/jenkins-agent.jnlp -workDir "/tmp/.jenkins/tmp"
 ```
 
 ## 流水线
@@ -271,7 +271,9 @@ pipeline {
 
 ```shell
 #!title: Run Jenkins multi-branch Pipeline
-docker run -p 8080:8080 jenkinszh/jenkins-multi-pipeline-zh:2.204.5
+# docker run -p 8080:8080 -p 50000:50000 jenkinszh/jenkins-multi-pipeline-zh:2.375.3
+mkdir -p /var/jenkins_home
+jcli center start --setup-wizard=false --image jenkinszh/jenkins-multi-pipeline-zh --version 2.375.3
 ```
 
 ## 共享库
