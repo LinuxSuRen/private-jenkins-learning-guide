@@ -1,4 +1,6 @@
 # Jenkins 教程
+
+## 关于作者
 10+ 年的研发经验，主要关注云原生、开源等领域。
 
 近期主要维护的项目有：
@@ -94,7 +96,7 @@ java -jar sample.war
 ### JRE
 ```shell
 #!title: Java 直接启动 Jenkins
-hd get https://get.jenkins.io/war-stable/2.375.3/jenkins.war
+hd get https://get.jenkins.io/war-stable/2.375.3/jenkins.war -t 10
 java -jar jenkins.war
 ```
 
@@ -110,7 +112,7 @@ hd get https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.5/bin/apache-tomcat-10.1.
 ### Docker
 ```shell
 #!title: Docker 中启动 Jenkins
-docker run -p 8080:8080 jenkins/jenkins:2.375.3
+docker run -p 8080:8080 -p 50000:50000 jenkins/jenkins:2.375.3
 ```
 
 ### Kubernetes
@@ -271,8 +273,6 @@ pipeline {
 
 ```shell
 #!title: Run Jenkins multi-branch Pipeline
-# docker run -p 8080:8080 -p 50000:50000 jenkinszh/jenkins-multi-pipeline-zh:2.375.3
-mkdir -p /var/jenkins_home
 jcli center start --setup-wizard=false --image jenkinszh/jenkins-multi-pipeline-zh --version 2.375.3
 ```
 
