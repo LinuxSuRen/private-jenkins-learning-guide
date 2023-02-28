@@ -233,6 +233,10 @@ pipeline {
     BRANCH = "master"
   }
 
+  parameters {
+    string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
+  }
+
   stages {
     stage('clone') {
       steps {
@@ -254,18 +258,27 @@ pipeline {
     always {
       echo 'always'
     }
+    success {
+        archiveArtifacts 'README.md'
+    }
   }
 }
 ```
 
+* 申明式、脚本式
 * 代码生成器
+* 全局变量
+* [Step Reference](https://www.jenkins.io/doc/pipeline/steps/)
+* 沙盒
+* 参数化构建
+* 定时构建
 
 ## 多分支流水线
 
 通过定时（或 webhook）扫描代码仓库，如果相应分支（或 tag）上有 Jenkinsfile 的话，按照规则来动态管理流水线。
 发现新分支会创建流水线，分支被删除后会删除对应的流水线。
 
-支持扫描：
+扫描规则介绍：
 
 * 分支
 * tag
@@ -273,8 +286,39 @@ pipeline {
 
 ```shell
 #!title: Run Jenkins multi-branch Pipeline
-jcli center start --setup-wizard=false --image jenkinszh/jenkins-multi-pipeline-zh --version 2.375.3
+jcli center start --setup-wizard=false --image jenkinszh/jenkins-multi-pipeline-zh --version 2.375.3 --c-user root -m docker
 ```
+
+## 角色权限划分
+
+
+更多查看 https://github.com/jenkinsci/role-strategy-plugin
+
+## Maven
+
+* pom.xml 结构
+* settings.xml
+* Nexus
+
+## Kubernetes
+
+* 容器与虚拟机的对比介绍
+* Docker 的基础介绍
+  * Dockerfile
+  * Docker 命令基础操作
+  * Registry 介绍
+* Kubernetes 概述
+  * 资源
+  * Pod、Namespace
+  * Deployment
+  * Service
+  * ConfigMap、Secret
+  * ServiceAccount
+  * Role、ClusterRole、RoleBinding、ClusterRoleBinding
+* 方便学习的 Kubernetes 发行版
+  * kind、k3d、minikube
+
+更多请查看 https://github.com/devops-ws/kubernetes-guide
 
 ## 共享库
 
